@@ -1,22 +1,32 @@
-def create_cheltuiala(nr_apartament, suma, data, tipul):
+def create_cheltuiala(ID, nr_apartament, suma, data, tipul):
     """
     Creează o nouă cheltuială.
+    :param ID:str, ID-ul cheltuielii;trebuie sa fie unic
     :param nr_apartament:int, numărul apartamentului cheltuielii
     :param suma:float, suma cheltuielii
     :param data:data în care se face cheltuiala
-    :param tipul:str,tipul cheltuielii
+    :param tipul:str, tipul cheltuielii
     :return: o cheltuială
     """
-    #cheltuiala = [nr_apartament, suma, data, tipul]
+    #cheltuiala = [ID, nr_apartament, suma, data, tipul]
     #return cheltuiala
 
     return {
+        'ID': ID,
         'nr_apartament': nr_apartament,
         'suma': suma,
         'data': data,
         'tipul': tipul
     }
 
+def get_ID(cheltuiala):
+    """
+    Returnează ID-ul cheltuielii.
+    :param cheltuiala: cheltuială
+    :return: ID-ul cheltuielii
+    """
+    #return cheltuiala[0]
+    return cheltuiala['ID']
 
 
 def get_nr_apartament(cheltuiala):
@@ -25,7 +35,7 @@ def get_nr_apartament(cheltuiala):
     :param cheltuiala: cheltuială
     :return: numărul apartamentului pentru cheltuială
     """
-    #return cheltuiala[0]
+    #return cheltuiala[1]
     return cheltuiala['nr_apartament']
 
 def set_nr_apartament(cheltuiala, nr_apartament):
@@ -43,7 +53,7 @@ def get_suma(cheltuiala):
     :param cheltuiala: cheltuială
     :return: suma cheltuielii
     """
-    #return cheltuiala[1]
+    #return cheltuiala[2]
     return cheltuiala['suma']
 
 def set_suma(cheltuiala, suma):
@@ -61,7 +71,7 @@ def get_data(cheltuiala):
     :param cheltuiala: cheltuială
     :return: data în care s-a efectuat cheltuiala
     """
-    #return cheltuiala[2]
+    #return cheltuiala[3]
     return cheltuiala['data']
 
 def set_data(cheltuiala, data):
@@ -79,7 +89,7 @@ def get_tipul(cheltuiala):
     :param cheltuiala: cheltuială
     :return: tipul cheltuielii
      """
-    #return cheltuiala[3]
+    #return cheltuiala[4]
     return cheltuiala['tipul']
 
 def set_tipul(cheltuiala, tipul):
@@ -92,4 +102,4 @@ def set_tipul(cheltuiala, tipul):
 
 
 def to_string(cheltuiala):
-    return f'nr_apartament={get_nr_apartament(cheltuiala)}, suma={get_suma(cheltuiala)}, data={get_data(cheltuiala)}, tipul={get_tipul(cheltuiala)} '
+    return f'ID={get_ID(cheltuiala)}, nr_apartament={get_nr_apartament(cheltuiala)}, suma={get_suma(cheltuiala)}, data={get_data(cheltuiala)}, tipul={get_tipul(cheltuiala)} '
