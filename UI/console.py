@@ -125,6 +125,8 @@ def ui_undo(list_of_cheltuieli, undo_list, redo_list):
     undo_result = do_undo(undo_list, redo_list, list_of_cheltuieli)
     if undo_result is not None:
         print('Undo efectuat cu succes!')
+        for cheltuiala in undo_result:
+            print(to_string(cheltuiala))
         return undo_result
     print('Nu se poate face undo!')
     return list_of_cheltuieli
@@ -134,6 +136,8 @@ def ui_redo(list_of_cheltuieli, undo_list, redo_list):
     redo_result = do_redo(undo_list, redo_list, list_of_cheltuieli)
     if redo_result is not None:
         print('Redo efectuat cu succes!')
+        for cheltuiala in redo_result:
+            print(to_string(cheltuiala))
         return redo_result
     print('Nu se poate face redo!')
     return list_of_cheltuieli
