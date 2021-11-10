@@ -13,9 +13,11 @@ def main():
     list_of_cheltuieli = []
     print_optiuni()
     op = input('Alegeti interfata dorita:')
+    undo_list = []
+    redo_list = []
     while True:
         if op == '1':
-            run_console(list_of_cheltuieli)
+            run_console(list_of_cheltuieli, undo_list, redo_list)
         elif op == '2':
             run_command_line_console(list_of_cheltuieli)
         elif op == 'x':
