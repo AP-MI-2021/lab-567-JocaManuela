@@ -2,32 +2,42 @@ from Domain.Cheltuiala import create_cheltuiala, get_ID, get_nr_apartament, get_
 from Logic.CRUD import get_cheltuiala_by_nr_apartament
 
 
-def delete_all_cheltuieli_pt_apartament(list_of_cheltuieli, nr_apartament):
+def delete_all_cheltuieli_pt_apartament(list_of_cheltuieli, nr_apartament, undo_list=None, redo_list=None):
     '''
     Functia sterge toate cheltuielile pentru un apartament dat.
     :param list_of_cheltuieli: lista de cheltuieli
     :param nr_apartament: numarul de apartament pentru care se efectueaza stergerea cheltuielilor
+    :param undo_list:
+    :param redo_list:
     :return: o noua lista cu cheltuielile ramase
     '''
 
     if get_cheltuiala_by_nr_apartament(list_of_cheltuieli, nr_apartament) is None:
         raise ValueError('Numarul apartamentului dat nu exista!')
+    if undo_list is not None and redo_list is not None:
+        undo_list.append(list_of_cheltuieli)
+        redo_list.clear()
     new_cheltuiala = []
     for cheltuiala in list_of_cheltuieli:
         if get_nr_apartament(cheltuiala) != nr_apartament:
             new_cheltuiala.append(cheltuiala)
     return new_cheltuiala
 
-def adunare_valoare(list_of_cheltuieli, data, valoare):
+def adunare_valoare(list_of_cheltuieli, data, valoare, undo_list=None, redo_list=None):
     """
     Aduna o valoare data la toate cheltuielile dintr-o data citita.
     :param list_of_cheltuieli: lista de cheltuieli
     :param data: data pentru care se face adunarea
     :param valoare: valoarea care se aduna
+    :param undo_list:
+    :param redo_list:
     :return: o noua lista cu cheltuielile noi
     """
     if valoare < 0:
         raise ValueError('Valoarea de adunat trebuie sa fie un numar pozitiv!')
+    if undo_list is not None and redo_list is not None:
+        undo_list.append(list_of_cheltuieli)
+        redo_list.clear()
     new_list = []
     for cheltuiala in list_of_cheltuieli:
         if get_data(cheltuiala) == data:
@@ -41,7 +51,6 @@ def adunare_valoare(list_of_cheltuieli, data, valoare):
             new_list.append(new_cheltuiala)
         else:
             new_list.append(cheltuiala)
-
     return new_list
 
 def max_cheltuiala_pt_tip_cheltuiala(list_of_cheltuieli):
@@ -61,12 +70,17 @@ def max_cheltuiala_pt_tip_cheltuiala(list_of_cheltuieli):
             tip_cheltuieli[tip] = cheltuiala
     return tip_cheltuieli
 
-def ord_cheltuieli_descrescator_dupa_suma(list_of_cheltuieli):
+def ord_cheltuieli_descrescator_dupa_suma(list_of_cheltuieli, undo_list=None, redo_list=None):
     """
     Ordoneaza cheltuielile descrescator dupa suma lor.
     :param list_of_cheltuieli: lista de cheltuieli
+    :param undo_list:
+    :param redo_list:
     :return: o lista cu cheltuielile ordonate descrescator dupa suma
     """
+    if undo_list is not None and redo_list is not None:
+        undo_list.append(list_of_cheltuieli)
+        redo_list.clear()
     return sorted(list_of_cheltuieli, key=lambda cheltuiala: get_suma(cheltuiala), reverse=True)
 
 def sume_lunare(list_of_cheltuieli):
@@ -126,3 +140,34 @@ def luni_apartament(list_of_cheltuieli, nr_apartament):
                 suma = float(get_suma(cheltuiala))
                 lista[11][1] = lista[11][1] + suma
     return lista
+
+def do_undo(undo_list, redo_list, current_list):
+    """
+    Șterge ultima operațiune făcută
+    :param undo_list: lista dupa stergere
+    :param redo_list: lista dinaintea stergerii
+    :param current_list: lista curenta
+    :return: lista dupa ce a avut loc undo
+    """
+    if len(undo_list) > 0:
+        redo_list.append(current_list)
+        return undo_list.pop()
+    return current_list
+
+
+def do_redo(undo_list, redo_list, current_list):
+    """
+    Revine la operațiunea dinaintea ștergerii
+    :param undo_list: lista dupa stergere
+    :param redo_list: lista dinaintea stergerii
+    :param current_list: lista curenta
+    :return:
+    """
+    if len(redo_list) > 0:
+        undo_list.append(current_list)
+        return redo_list.pop()
+    return current_list
+
+
+
+

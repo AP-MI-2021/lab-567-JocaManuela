@@ -4,9 +4,9 @@ from Tests.run_all_tests import run_all_tests
 
 
 def print_optiuni():
-    print('1. Utilizati interfata cu optiuni')
-    print('2. Utilizati interfata cu comenzi pe aceeasi linie')
-    print('x. Iesire.')
+   print('1. Utilizati interfata cu optiuni')
+   print('2. Utilizati interfata cu comenzi pe aceeasi linie')
+   print('x. Iesire.')
 
 def main():
     run_all_tests()
